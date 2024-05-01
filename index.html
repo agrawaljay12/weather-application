@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> whether application </title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <script src="script.js"></script> -->
+</head>
+<body class="bg-blue-400 flex justify-content items-center h-screen">
+    <div class="max-w-screen-sm container bg-transparent mx-auto max-w-md px-5">
+        <h1 class="sm:text-4xl text-3xl text-center font-bold text-white"> Weather Application  </h1>
+        <div class="mb-4 py-6"> 
+            <input type="search" placeholder="Search by city" class=" p-4 w-full mt-1 border-2 rounded-3xl text-xl text-center" id="inputcity">
+         </div>
+         <button class="bg-transparent border-2 rounded-3xl text-xl text-white p-4  text-center mt-4 w-full font-bold" id="search">
+             Get Weather 
+         </button>
+         <div id="weatherinfo" class="mt-5 text-white">
+            <h1 class="text-xl font-bold"> Location: <span id="cityname" class="text-white"></span></h1>
+            <h1 class="text-xl font-bold"> Temperature: <span id="temp" class="text-white"></span></h1>
+            <h1 class="text-xl font-bold"> Weather: <span id="weather" class="text-white"></span></h1>
+            <h1 class="text-xl font-bold"> Humdidity: <span id="humditity" class="text-white"></span></h1>
+         </div>
+    </div>
+    <script>
+        let getweather = document.getElementById("search");
+        let cityinput = document.getElementById("inputcity");
+        let Temp = document.getElementById("temp");
+        let Weather = document.getElementById("weather");
+        let location1 =document.getElementById("cityname");
+        let Humditity = document.getElementById("humditity");
+        async function getdata(cityname)
+        {
+            let promise=  await fetch(
+                `http://api.weatherapi.com/v1/current.json?key=c8999e9985cc4fe0aec101227242304 &q=${cityname}&aqi=yes`
+            );
+            return await promise.json();
+        }
+        getweather.addEventListener("click", async()=>{
+            let value =cityinput.value;
+            let result = await getdata(value);
+            console.log(result);
+            location1.innerText= `${result.location.name}`
+            Temp.innerText=result.current.temp_c;
+            Weather.innerText=result.current.cloud;
+            Humditity.innerText=result.current.humidity;  
+        })
+    </script>
+</body>
+</html>
